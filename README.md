@@ -10,7 +10,7 @@ Roblox UI library styled after the Dandy's World menus: dark striped panels with
 
 ## API
 ```lua
-local DandysUI = loadstring(game:HttpGet(RAW_URL))()
+local DandysUI = loadstring(game:HttpGet(https://raw.githubusercontent.com/alihusam078588-web/DandysUI/refs/heads/main/DandysUI.lua))()
 
 local Window = DandysUI:CreateWindow({ Title, Subtitle, Footer, Size, ToggleKey, InfoPanel, InfoText, OpenButton, OpenText })
 local Tab    = Window:CreateTab({ Name, Icon })              -- or Window:CreateTab("Name")
