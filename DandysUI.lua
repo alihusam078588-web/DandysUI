@@ -1713,7 +1713,7 @@ function Library.CreateWindow(_: any, opts: { [string]: any })
 		BackgroundTransparency = 1,
 		BorderSizePixel = 0,
 		Position = UDim2.fromOffset(50, 62),
-		Size = UDim2.new(1, -100, 0, 50),
+		Size = UDim2.new(1, -100, 0, 82),
 		CanvasSize = UDim2.new(),
 		AutomaticCanvasSize = Enum.AutomaticSize.X,
 		ScrollingDirection = Enum.ScrollingDirection.X,
@@ -1721,16 +1721,28 @@ function Library.CreateWindow(_: any, opts: { [string]: any })
 		ZIndex = 3,
 		Parent = body,
 	}, {
-		New("UIPadding", { PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4) }),
+		New("UIPadding", {
+			PaddingLeft = UDim.new(0, 4),
+			PaddingRight = UDim.new(0, 4),
+			PaddingTop = UDim.new(0, 4),
+			PaddingBottom = UDim.new(0, 4),
+		}),
+		New("UIGridLayout", {
+			CellSize = UDim2.fromOffset(132, 34),
+			CellPadding = UDim2.fromOffset(8, 5),
+			FillDirection = Enum.FillDirection.Vertical,
+			FillDirectionMaxCells = 2,
+			SortOrder = Enum.SortOrder.LayoutOrder,
+		}),
 	})
-	local navLayout = HList(nav, 10, Enum.HorizontalAlignment.Left)
+	local navLayout = nav:FindFirstChildOfClass("UIGridLayout")
 	self.Nav = nav
 
 	local tabArrowLeft = Chunky({
 		Name = "TabArrowLeft",
 		AnchorPoint = Vector2.new(0, 0),
-		Position = UDim2.fromOffset(18, 67),
-		Size = UDim2.fromOffset(28, 40),
+		Position = UDim2.fromOffset(18, 86),
+		Size = UDim2.fromOffset(28, 34),
 		Visible = false,
 		ZIndex = 6,
 		Parent = body,
@@ -1742,8 +1754,8 @@ function Library.CreateWindow(_: any, opts: { [string]: any })
 	local tabArrowRight = Chunky({
 		Name = "TabArrowRight",
 		AnchorPoint = Vector2.new(1, 0),
-		Position = UDim2.new(1, -18, 0, 67),
-		Size = UDim2.fromOffset(28, 40),
+		Position = UDim2.new(1, -18, 0, 86),
+		Size = UDim2.fromOffset(28, 34),
 		Visible = false,
 		ZIndex = 6,
 		Parent = body,
@@ -1800,8 +1812,8 @@ function Library.CreateWindow(_: any, opts: { [string]: any })
 	local pages = New("Frame", {
 		Name = "Pages",
 		BackgroundTransparency = 1,
-		Position = UDim2.fromOffset(18, 120),
-		Size = UDim2.new(1, -36 - infoWidth - (showInfo and 14 or 0), 1, -158),
+		Position = UDim2.fromOffset(18, 150),
+		Size = UDim2.new(1, -36 - infoWidth - (showInfo and 14 or 0), 1, -188),
 		ZIndex = 2,
 		Parent = body,
 	})
@@ -1812,8 +1824,8 @@ function Library.CreateWindow(_: any, opts: { [string]: any })
 		local info = New("Frame", {
 			Name = "InfoPanel",
 			AnchorPoint = Vector2.new(1, 0),
-			Position = UDim2.new(1, -18, 0, 120),
-			Size = UDim2.new(0, infoWidth, 1, -158),
+			Position = UDim2.new(1, -18, 0, 150),
+			Size = UDim2.new(0, infoWidth, 1, -188),
 			BackgroundColor3 = BLACK,
 			BackgroundTransparency = 0.45,
 			BorderSizePixel = 0,
@@ -2029,8 +2041,7 @@ function Window:CreateTab(opts: any)
 		AutoButtonColor = false,
 		Text = "",
 		BackgroundTransparency = 1,
-		Size = UDim2.fromOffset(0, 40),
-		AutomaticSize = Enum.AutomaticSize.X,
+		Size = UDim2.fromOffset(132, 34),
 		LayoutOrder = #self.Tabs + 1,
 		ZIndex = 3,
 		Parent = self.Nav,
@@ -2038,8 +2049,7 @@ function Window:CreateTab(opts: any)
 	local holder = New("Frame", {
 		Name = "Holder",
 		BackgroundTransparency = 1,
-		Size = UDim2.new(0, 0, 1, 0),
-		AutomaticSize = Enum.AutomaticSize.X,
+		Size = UDim2.fromScale(1, 1),
 		ZIndex = 3,
 		Parent = button,
 	})
@@ -2078,12 +2088,11 @@ function Window:CreateTab(opts: any)
 	local content = New("Frame", {
 		Name = "Content",
 		BackgroundTransparency = 1,
-		Size = UDim2.new(0, 0, 1, 0),
-		AutomaticSize = Enum.AutomaticSize.X,
+		Position = UDim2.fromOffset(8, 0),
+		Size = UDim2.new(1, -16, 1, 0),
 		ZIndex = 5,
 		Parent = holder,
 	}, {
-		New("UIPadding", { PaddingLeft = UDim.new(0, 18), PaddingRight = UDim.new(0, 18) }),
 		New("UIListLayout", {
 			FillDirection = Enum.FillDirection.Horizontal,
 			VerticalAlignment = Enum.VerticalAlignment.Center,
@@ -2096,7 +2105,7 @@ function Window:CreateTab(opts: any)
 			Name = "Icon",
 			BackgroundTransparency = 1,
 			Image = opts.Icon,
-			Size = UDim2.fromOffset(24, 24),
+			Size = UDim2.fromOffset(20, 20),
 			ZIndex = 5,
 			Parent = content,
 		})
@@ -2104,11 +2113,10 @@ function Window:CreateTab(opts: any)
 	local label = Text({
 		Name = "Label",
 		Text = opts.Name or "Tab",
-		TextSize = 21,
-		AutomaticSize = Enum.AutomaticSize.X,
-		TextTruncate = Enum.TextTruncate.None,
+		TextSize = 17,
+		TextTruncate = Enum.TextTruncate.AtEnd,
 		TextXAlignment = Enum.TextXAlignment.Center,
-		Size = UDim2.new(0, 0, 1, 0),
+		Size = UDim2.new(1, opts.Icon and -26 or 0, 1, 0),
 		LayoutOrder = 2,
 		ZIndex = 5,
 		Parent = content,
